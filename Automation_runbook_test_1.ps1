@@ -34,16 +34,3 @@ foreach ($ResourceGroup in $ResourceGroups)
     Write-Output ("")
 }
 
-#Creating a new branch and testing the branch
-
-#Enabled Publish branch directly
-
-#making changes in the source in automation runbook
-
-#making changes in the source in automation runbook 9989008
-
-
-
-----------------------------------------------------------
-
-#making changes in the source in automation runbook 9989008
