@@ -8,7 +8,7 @@
         LASTEDIT: Oct 26, 2021
 #>
 
-"Please enable appropriate RBAC permissions to the system identity of this automation account. Otherwise, the runbook may fail..."
+
 
 try
 {
@@ -33,3 +33,5 @@ foreach ($ResourceGroup in $ResourceGroups)
     }
     Write-Output ("")
 }
+
+#Creating a new branch and testing the branch
