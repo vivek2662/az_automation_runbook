@@ -35,3 +35,6 @@ foreach ($ResourceGroup in $ResourceGroups)
 }
 
 #Creating a new branch and testing the branch
+
+#Enabled Publish branch directly
+
