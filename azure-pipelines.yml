@@ -20,3 +20,23 @@ variables:
   location: 'East US'
   devRunbookName: 'runbook_dev'
   preprodRunbookName: 'runbook_pre_prod'
+
+  #Build stages:
+stages:
+  - stage: Build
+    displayName: 'Building Runbook'
+    jobs:
+      - job: BuildRunbook
+        displayName: 'Creating artifact'
+        pool:
+          vmImage: 'windows-latest'
+        steps:
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish build as artifcat'
+            inputs:
+              PathtoPublish: '$(runbookFolder)'
+              ArtifactName: '$(artifactName)'
+              publishLocation: 'Container'  
+  
+    
+
