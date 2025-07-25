@@ -42,5 +42,22 @@ stages:
               PathtoPublish: '$(Build.ArtifactStagingDirectory)'
               ArtifactName: 'drop'
               publishLocation: 'Container'
-    
+  - stage: dev
+    displayName: 'Deploy to dev Environment'
+    dependsOn: Build
+    jobs:
+      - job: DeployDev
+        displayName: 'Deploying to Dev'
+        pool:
+          vmImage: 'windows-latest'
+        steps:
+          - download: current
+            artifact: drop
+          - task: AzureCLI@2
+            displayName: 'importing dev runbook'
+            inputs:
+              azureSubscription: 'CICD_Runbook_devops'
+              scriptType: 'ps'
+              scriptLocation: 'scriptPath'
+              scriptPath: '$(Pipeline.Worspace)/drop/$(runbookName)'
 
