@@ -31,6 +31,11 @@ stages:
         pool:
           vmImage: 'windows-latest'
         steps:
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: '$(runbookFolder)'
+              Contents: '**'
+              TargetFolder: '$(Build.ArtifactStagingDirectory)'
           - task: PublishBuildArtifacts@1
             displayName: 'Publish Build artifact'
             inputs:
