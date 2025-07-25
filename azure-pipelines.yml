@@ -34,7 +34,7 @@ stages:
           - task: CopyFiles@2
             inputs:
               SourceFolder: '$(Build.SourcesDirectory)/$(runbookFolder)'
-              Contents: '*.ps1'
+              Contents: '$(runbookName)'
               TargetFolder: '$(Build.ArtifactStagingDirectory)'
           - task: PublishBuildArtifacts@1
             displayName: 'Publish Build artifact'
