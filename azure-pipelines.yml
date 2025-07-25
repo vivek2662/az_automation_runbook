@@ -32,11 +32,9 @@ stages:
           vmImage: 'windows-latest'
         steps:
           - task: PublishBuildArtifacts@1
-            displayName: 'Publish build as artifcat'
             inputs:
-              PathtoPublish: '$(runbookFolder)'
-              ArtifactName: '$(artifactName)'
-              publishLocation: 'Container'  
-  
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)/Runbooks'
+              ArtifactName: 'drop'
+              publishLocation: 'Container'
     
 
