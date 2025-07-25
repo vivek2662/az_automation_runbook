@@ -33,7 +33,7 @@ stages:
         steps:
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: '$(Build.ArtifactStagingDirectory)/Runbooks'
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(runbookFolder)'
               ArtifactName: 'drop'
               publishLocation: 'Container'
     
