@@ -14,7 +14,7 @@ variables:
   devAutomationAccount: 'Venkat-AZ-Test-runbook'
   #preprodResourceGroup: ''
   #preprodAutomationAccount: ''
-  #runbookName: 'Runbook.ps1'
+  runbookName: 'Automation_runbook_test_1.ps1'
   #runbookFolder: 'Runbooks'
   #artifactName: 'runbookArtifact'
   location: 'East US'
@@ -34,7 +34,7 @@ stages:
           - task: CopyFiles@2
             inputs:
               SourceFolder: '$(Build.SourcesDirectory)'
-              Contents: '*.ps1'
+              Contents: '$(runbookName)'
               TargetFolder: '$(Build.ArtifactStagingDirectory)'
           - task: PublishBuildArtifacts@1
             displayName: 'Publish Build artifact'
