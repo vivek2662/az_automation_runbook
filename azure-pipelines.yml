@@ -9,12 +9,14 @@ trigger:
       - main
 
 variables:
-  azureServiceConnection: ''
-  devResourceGroup: ''
-  devAutomationAccount: ''
-  preprodResourceGroup: ''
-  preprodAutomationAccount: ''
-  runbookName: ''
-  runbookFolder: ''
+  azureServiceConnection: 'github.com_vivek2662'
+  devResourceGroup: 'ADF_DEV_TEST_1'
+  devAutomationAccount: 'Venkat-AZ-Test-runbook'
+  #preprodResourceGroup: ''
+  #preprodAutomationAccount: ''
+  runbookName: 'Runbook.ps1'
+  runbookFolder: 'Runbooks'
   artifactName: 'runbookArtifact'
   location: 'East US'
+  devRunbookName: 'runbook_dev'
+  preprodRunbookName: 'runbook_pre_prod'
