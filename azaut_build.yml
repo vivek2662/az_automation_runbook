@@ -17,10 +17,26 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-        $filePath = "$(Build.SourcesDirectory)/${{ parameters.RunbookName }}"
-              Write-Host "Validating syntax for $filePath"
-              $content = Get-Content $filePath -Raw
-              [void][System.Management.Automation.PSScriptAnalyzer]::AnalyzeScript($content)
+        # Install PSScriptAnalyzer if not already installed
+              if (-not (Get-Module -ListAvailable -Name PSScriptAnalyzer)) {
+                Install-Module -Name PSScriptAnalyzer -Scope CurrentUser -Force -ErrorAction Stop
+              }
+        
+              # Define the runbook path
+              $filePath = "$(Build.SourcesDirectory)/${{ parameters.RunbookName }}"
+        
+              Write-Host "Validating file: $filePath"
+        
+              # Run the analyzer
+              $results = Invoke-ScriptAnalyzer -Path $filePath -Recurse -Severity Warning, Error
+        
+              if ($results.Count -gt 0) {
+                Write-Warning "PSScriptAnalyzer found issues:"
+                $results | Format-Table -AutoSize
+                throw "Runbook validation failed. Fix the above issues to proceed."
+              } else {
+                Write-Host "Runbook validation passed. No issues found."
+              }
   - task: CopyFiles@2
     inputs:
       SourceFolder: '$(Build.SourcesDirectory)'
