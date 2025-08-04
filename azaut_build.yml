@@ -17,36 +17,36 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-        # 1️⃣ Install PSScriptAnalyzer if not already available
+        # Install PSScriptAnalyzer if not already available
         if (-not (Get-Module -ListAvailable -Name PSScriptAnalyzer)) {
           Install-Module -Name PSScriptAnalyzer -Scope CurrentUser -Force -ErrorAction Stop
         }
         
-        # 2️⃣ Define runbook file path
+        # Define runbook file path
         $filePath = "$(Build.SourcesDirectory)/${{ parameters.RunbookName }}"
-        Write-Host "📁 Validating file: $filePath"
+        Write-Host " Validating file: $filePath"
         
-        # 3️⃣ Basic Syntax Check using ScriptBlock
+        # Syntax Check using ScriptBlock
         try {
           $content = Get-Content -Path $filePath -Raw
           # Tries to parse the script into a ScriptBlock
           $null = [System.Management.Automation.ScriptBlock]::Create($content)
-          Write-Host "✅ Syntax validation passed: PowerShell script compiles correctly."
+          Write-Host "Syntax validation passed: PowerShell script compiles correctly."
         }
         catch {
-          Write-Error "❌ Syntax error found: $($_.Exception.Message)"
+          Write-Error "Syntax error found: $($_.Exception.Message)"
           throw "PowerShell syntax validation failed."
         }
         
-        # 4️⃣ Run PSScriptAnalyzer for style/best practices
+        # Run PSScriptAnalyzer for style/best practices
         $results = Invoke-ScriptAnalyzer -Path $filePath -Recurse -Severity Warning, Error
         
         if ($results.Count -gt 0) {
-          Write-Warning "⚠️ PSScriptAnalyzer found issues:"
+          Write-Warning " PSScriptAnalyzer found issues:"
           $results | Format-Table -AutoSize
-          throw "❌ Runbook validation failed due to style/best-practice issues."
+          throw " Runbook validation failed due to style/best-practice issues."
         } else {
-          Write-Host "✅ PSScriptAnalyzer validation passed: No warnings or errors."
+          Write-Host " PSScriptAnalyzer validation passed: No warnings or errors."
         }
   - task: CopyFiles@2
     inputs:
