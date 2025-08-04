@@ -34,3 +34,6 @@ foreach ($ResourceGroup in $ResourceGroups)
     Write-Output ("")
 }
 # adding build step in yaml
+
+
+# adding another line to test
