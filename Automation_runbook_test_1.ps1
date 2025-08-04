@@ -32,5 +32,5 @@ foreach ($ResourceGroup in $ResourceGroups)
         Write-Output ($Resource.Name + " of type " +  $Resource.ResourceType)
     }
     Write-Output ("")
-
+}
 
