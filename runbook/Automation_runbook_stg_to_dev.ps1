@@ -7,9 +7,6 @@
         AUTHOR: Azure Automation Team
         LASTEDIT: Oct 26, 2021
 #>
-
-
-
 try
 {
     "Logging in to Azure..."
@@ -34,3 +31,4 @@ foreach ($ResourceGroup in $ResourceGroups)
     Write-Output ("")
 }
 
+#buliding the new env
