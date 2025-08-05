@@ -51,7 +51,7 @@ steps:
   - task: CopyFiles@2
     inputs:
       SourceFolder: '$(Build.SourcesDirectory)/${{ parameters.RunbookFolder }}'
-      Contents: '{{ parameters.RunbookName }}' # we need to try with runbook name or else it will take all files anything is fine
+      Contents: '${{ parameters.RunbookName }}' # we need to try with runbook name or else it will take all files anything is fine
       TargetFolder: '$(Build.ArtifactStagingDirectory)/runbook'
 
   - task: PublishPipelineArtifact@1
