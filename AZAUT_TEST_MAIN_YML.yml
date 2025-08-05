@@ -12,7 +12,8 @@ stages:
         pool:
           vmImage: 'windows-latest'
         steps:
-          - template: azaut_build.yml
+          - template: templates/ci-pipeline.yml
             parameters:
-              RunbookName: 'Automation_runbook_test_1.ps1'
+              RunbookName: 'Automation_runbook_stg_to_dev.ps1'
+              RunbookFolder: 'runbook'
               ArtifactName: 'AzAutArtifcat'
