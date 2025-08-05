@@ -1,8 +1,8 @@
 parameters:
 - name: RunbookName
   type: string
-#- name: RunbookFolder
-#  type: string
+- name: RunbookFolder
+  type: string
 - name: ArtifactName
   type: string
 #- name: TargetEnvironment
@@ -23,7 +23,7 @@ steps:
         }
         
         # Define runbook file path
-        $filePath = "$(Build.SourcesDirectory)/${{ parameters.RunbookName }}"
+        $filePath = "$(Build.SourcesDirectory)/{{ parameters.RunbookFolder }}/${{ parameters.RunbookName }}"
         Write-Host " Validating file: $filePath"
         
         # Syntax Check using ScriptBlock
