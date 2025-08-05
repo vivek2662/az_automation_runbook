@@ -14,6 +14,6 @@ stages:
         steps:
           - template: templates/ci-pipeline.yml
             parameters:
-              RunbookName: 'Automation_runbook_stg_to_dev.ps1'
               RunbookFolder: 'runbook'
+              RunbookName: 'Automation_runbook_stg_to_dev.ps1'
               ArtifactName: 'AzAutArtifcat'
