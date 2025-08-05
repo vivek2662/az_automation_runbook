@@ -1,0 +1,62 @@
+parameters:
+- name: RunbookName
+  type: string
+#- name: RunbookFolder
+#  type: string
+- name: ArtifactName
+  type: string
+#- name: TargetEnvironment
+ # type: string #example dev,pre-prod,prod to add after runbook_name
+
+steps:
+  - checkout: self
+    displayName: "Checkout Source Code"
+
+# Validataing the runbook using the poweshell script
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        # Install PSScriptAnalyzer if not already available
+        if (-not (Get-Module -ListAvailable -Name PSScriptAnalyzer)) {
+          Install-Module -Name PSScriptAnalyzer -Scope CurrentUser -Force -ErrorAction Stop
+        }
+        
+        # Define runbook file path
+        $filePath = "$(Build.SourcesDirectory)/${{ parameters.RunbookName }}"
+        Write-Host " Validating file: $filePath"
+        
+        # Syntax Check using ScriptBlock
+        try {
+          $content = Get-Content -Path $filePath -Raw
+          # Tries to parse the script into a ScriptBlock
+          $null = [System.Management.Automation.ScriptBlock]::Create($content)
+          Write-Host "Syntax validation passed: PowerShell script compiles correctly."
+        }
+        catch {
+          Write-Error "Syntax error found: $($_.Exception.Message)"
+          throw "PowerShell syntax validation failed."
+        }
+        
+        # Run PSScriptAnalyzer for style/best practices
+        $results = Invoke-ScriptAnalyzer -Path $filePath -Recurse -Severity Warning, Error
+        
+        if ($results.Count -gt 0) {
+          Write-Warning " PSScriptAnalyzer found issues:"
+          $results | Format-Table -AutoSize
+          throw " Runbook validation failed due to style/best-practice issues."
+        } else {
+          Write-Host " PSScriptAnalyzer validation passed: No warnings or errors."
+        }
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)'
+      Contents: '**' # we need to try with runbook name or else it will take all files anything is fine
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: '$(Pipeline.Workspace)' # need to check for the pipeline workspace or the artifact staging directory
+      artifact: '${{ parameters.ArtifactName }}'
+      publishLocation: 'pipeline'
+
